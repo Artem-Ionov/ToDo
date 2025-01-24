@@ -1,9 +1,16 @@
 {% extends 'Base.html' %}
 
 {% block content %}
-    <ol>
+    <table>
+        <tr>
+            <th>Задача</th>
+            <th>Дата окончания</th>
+        </tr>
         {% for task in tasks %}
-            <li>{{task.title}}</li>
+            <tr>
+                <td>{{task.title}}</td>
+                <td>{{task.date}}</td>
+            </tr>
         {% endfor %}
-    </ol>
+    </table>
 {% endblock %}

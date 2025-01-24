@@ -1,0 +1,29 @@
+html{
+    background-color: beige;
+}
+
+.navi{
+    float: left;
+    width: 15%;
+    padding-top: 5%;
+}
+
+.navi ul{
+    list-style: none;
+}
+
+.content{
+    float: right;
+    width: 84%;
+    padding-top: 5%;
+}
+
+.content table{
+    width: 60%;
+}
+
+.content th, td{
+    height: 30px;
+    background-color: white;
+    padding-left: 10px;
+}
