@@ -5,5 +5,8 @@ class Task(models.Model):
     date=models.DateField('Дата окончания')
     completed=models.BooleanField('Завершено', default=False)
 
+    class Meta:
+        ordering=['date']
+        
     def __str__(self):
         return self.title

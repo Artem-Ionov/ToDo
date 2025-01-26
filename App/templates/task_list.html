@@ -1,15 +1,22 @@
 {% extends 'Base.html' %}
 
 {% block content %}
+    <p>Жми на задачу, чтобы поменять её параметры</p>
     <table>
         <tr>
             <th>Задача</th>
             <th>Дата окончания</th>
+            <th>Выполнено</th>
         </tr>
         {% for task in tasks %}
             <tr>
-                <td>{{task.title}}</td>
+                <td><a href="{% url 'task_update' task.id %}">{{task.title}}</a></td>
                 <td>{{task.date}}</td>
+                {% if task.completed %}
+                    <td>Да</td>
+                {% else %}
+                    <td>Нет</td>
+                {% endif %}
             </tr>
         {% endfor %}
     </table>
