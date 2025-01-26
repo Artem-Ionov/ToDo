@@ -13,3 +13,15 @@ class Update(ModelForm):
     class Meta:
         model=Task
         fields=['date', 'completed']
+
+
+class Add(ModelForm):
+    def clean_date(self):
+        data=self.cleaned_data['date']
+        if data < datetime.date.today():
+            raise ValidationError('Укажите дату, начиная с сегодняшней')
+        return data
+    
+    class Meta:
+        model=Task
+        fields='__all__'

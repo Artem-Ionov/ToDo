@@ -1,0 +1,10 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+    <p>Вводи параметры задачи:</p>
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Сохранить</button>
+    </form>
+{% endblock %}
