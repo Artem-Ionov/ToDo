@@ -1,11 +1,14 @@
 html{
-    background-color: beige;
+    background: url(Background.jpg);
+    height: 100%;
+    background-size: cover; 
 }
 
 .navi{
+    background-color: white;
     float: left;
     width: 15%;
-    padding-top: 5%;
+    margin-top: 5%;
 }
 
 .navi ul{
@@ -18,12 +21,23 @@ html{
     padding-top: 5%;
 }
 
-.content table{
-    width: 60%;
+table{
+    width: 50%;
+    border-collapse: collapse;
 }
 
-.content th, td{
+th, td{
     height: 30px;
-    background-color: white;
+}
+
+td{
     padding-left: 10px;
+}
+
+tr:nth-child(odd){
+    background-color: beige;
+}
+
+tr:nth-child(even){
+    background-color: rgb(220, 220, 150);
 }

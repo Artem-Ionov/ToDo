@@ -26,3 +26,8 @@ def task_add(request):
     else:
         form=Add()
     return render(request, 'task_add.html', {'form': form})
+
+def task_delete(request, pk):
+    task=Task.objects.get(pk=pk)
+    task.delete()
+    return redirect('task_list')
