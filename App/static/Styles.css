@@ -4,25 +4,29 @@ html{
     background-size: cover; 
 }
 
+ul{
+    list-style: none;
+}
+
+li, p, td, th{
+    font-size: 20px;
+}
+
 .navi{
     background-color: white;
     float: left;
     width: 15%;
-    margin-top: 5%;
-}
-
-.navi ul{
-    list-style: none;
+    margin-top: 8%;
 }
 
 .content{
     float: right;
-    width: 84%;
+    width: 80%;
     padding-top: 5%;
 }
 
 table{
-    width: 50%;
+    width: 60%;
     border-collapse: collapse;
 }
 

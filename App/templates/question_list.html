@@ -1,0 +1,16 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+    <ul>
+    {% for block in blocks %}
+        <li>
+        <ol>
+        <p style="font-weight: bold;">{{block.title}}</p>
+        {% for question in block.question_set.all %}
+            <li>{{question.title}}</li>
+        {% endfor %}
+        </ol>
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

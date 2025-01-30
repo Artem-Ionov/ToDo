@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Task
+from .models import Task, Question, Question_block
 from .forms import Update, Add
 
 def task_list(request):
@@ -31,3 +31,7 @@ def task_delete(request, pk):
     task=Task.objects.get(pk=pk)
     task.delete()
     return redirect('task_list')
+
+def question_list(request):
+    blocks=Question_block.objects.all()
+    return render(request, 'question_list.html', {'blocks':blocks})
