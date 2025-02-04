@@ -1,27 +1,39 @@
 from django.forms import ModelForm
 from django.core.exceptions import ValidationError
-from .models import Task
+from .models import Task, Question
 import datetime
 
-class Update(ModelForm):
+class Task_update(ModelForm):
     def clean_date(self):
         data=self.cleaned_data['date']
-        if data < datetime.date.today():
+        if data and data < datetime.date.today():
             raise ValidationError('Укажите дату, начиная с сегодняшней')
         return data
     
     class Meta:
         model=Task
-        fields=['date', 'completed']
+        fields=['importance', 'date', 'completed']
 
 
-class Add(ModelForm):
+class Task_add(ModelForm):
     def clean_date(self):
         data=self.cleaned_data['date']
-        if data < datetime.date.today():
+        if data and data < datetime.date.today():
             raise ValidationError('Укажите дату, начиная с сегодняшней')
         return data
     
     class Meta:
         model=Task
+        fields='__all__'
+
+
+class Question_update(ModelForm):
+    class Meta:
+        model=Question
+        fields=['decision']
+
+
+class Question_add(ModelForm):
+    class Meta:
+        model=Question
         fields='__all__'

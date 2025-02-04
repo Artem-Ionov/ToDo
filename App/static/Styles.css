@@ -8,15 +8,34 @@ ul{
     list-style: none;
 }
 
-li, p, td, th{
+li, p, td, th, a{
     font-size: 20px;
 }
 
+a{
+    text-decoration: none;
+    color: blue
+}
+
+form{
+    border: solid 1px;
+    display: inline-block;
+    padding: 20px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, white, beige);
+}
+
+button{
+    font-size: 15px;
+}
+
 .navi{
-    background-color: white;
+    background: linear-gradient(135deg, white, beige);
     float: left;
-    width: 15%;
+    width: 13%;
     margin-top: 8%;
+    border: solid 1px;
+    border-radius: 20px;
 }
 
 .content{
@@ -26,22 +45,19 @@ li, p, td, th{
 }
 
 table{
-    width: 60%;
+    width: 70%;
     border-collapse: collapse;
+    background: linear-gradient(135deg, white, beige);
 }
 
 th, td{
     height: 30px;
+    text-align: center;
 }
 
-td{
-    padding-left: 10px;
+#column1{
+    text-align: left;
+    padding-left: 20px;
 }
 
-tr:nth-child(odd){
-    background-color: beige;
-}
 
-tr:nth-child(even){
-    background-color: rgb(220, 220, 150);
-}

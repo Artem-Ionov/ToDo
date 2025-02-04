@@ -4,24 +4,29 @@
     <p>Жми на задачу, чтобы поменять её параметры:</p>
     <table>
         <colgroup>
-            <col style="width: 55%; border: 1px solid;">
+            <col style="width: 45%; border: 1px solid;">
+            <col style="width: 15%; border: 1px solid;">
             <col style="width: 25%; border: 1px solid;">
-            <col style="width: 20%; border: 1px solid;">
+            <col style="width: 15%; border: 1px solid;">
         </colgroup>
-        <tr>
+        <tr style="border: solid 1px;">
             <th>Задача</th>
+            <th>Важность</th>
             <th>Дата окончания</th>
-            <th>Выполнено</th>
+            <th>Сделано</th>
         </tr>
         {% for task in tasks %}
             <tr>
-                <td><a href="{% url 'task_update' task.id %}">{{task.title}}</a></td>
-                <td>{{task.date}}</td>
-                {% if task.completed %}
-                    <td>Да</td>
-                {% else %}
-                    <td>Нет</td>
-                {% endif %}
+                <td id="column1"><a href="{% url 'task_update' task.id %}">{{task.title}}</a></td>
+                <td>{{task.get_importance_display}}</a></td>
+                <td>{% if task.date %}
+                        {{task.date}}
+                    {% endif %}</td>
+                <td>{% if task.completed %}
+                        Да
+                    {% else %}
+                        Нет
+                    {% endif %}</td>
             </tr>
         {% endfor %}
     </table>
