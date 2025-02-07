@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django.core.exceptions import ValidationError
-from .models import Task, Question
+from .models import Task, Task_block
 import datetime
 
 class Task_update(ModelForm):
@@ -27,13 +27,7 @@ class Task_add(ModelForm):
         fields='__all__'
 
 
-class Question_update(ModelForm):
+class Task_block_add(ModelForm):
     class Meta:
-        model=Question
-        fields=['decision']
-
-
-class Question_add(ModelForm):
-    class Meta:
-        model=Question
+        model=Task_block
         fields='__all__'

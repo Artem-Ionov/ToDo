@@ -1,7 +1,7 @@
 {% extends 'Base.html' %}
 
 {% block content %}
-    <p>Вводи параметры вопроса:</p>
+    <p>Введите название новой темы:</p>
     <form method="post">
         {% csrf_token %}
         {{form.as_p}}

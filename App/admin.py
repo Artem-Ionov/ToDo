@@ -1,15 +1,13 @@
 from django.contrib import admin
-from .models import Task, Question, Question_block
+from .models import Task, Task_block
 
 admin.site.register(Task)
-admin.site.register(Question)
-#admin.site.register(Question_block)
 
-class QuestionInline(admin.TabularInline):
-    model=Question
+class TaskInline(admin.TabularInline):
+    model=Task
     extra=0
 
-class Question_blockAdmin(admin.ModelAdmin):
-    inlines=[QuestionInline]
+class Task_blockAdmin(admin.ModelAdmin):
+    inlines=[TaskInline]
 
-admin.site.register(Question_block, Question_blockAdmin)
+admin.site.register(Task_block, Task_blockAdmin)

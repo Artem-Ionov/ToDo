@@ -14,7 +14,7 @@ li, p, td, th, a{
 
 a{
     text-decoration: none;
-    color: blue
+    color: blue;
 }
 
 form{
@@ -45,7 +45,7 @@ button{
 }
 
 table{
-    width: 70%;
+    width: 80%;
     border-collapse: collapse;
     background: linear-gradient(135deg, white, beige);
 }

@@ -4,31 +4,46 @@
     <p>Жми на задачу, чтобы поменять её параметры:</p>
     <table>
         <colgroup>
-            <col style="width: 45%; border: 1px solid;">
             <col style="width: 15%; border: 1px solid;">
-            <col style="width: 25%; border: 1px solid;">
+            <col style="width: 40%; border: 1px solid;">
             <col style="width: 15%; border: 1px solid;">
+            <col style="width: 20%; border: 1px solid;">
+            <col style="width: 10%; border: 1px solid;">
         </colgroup>
         <tr style="border: solid 1px;">
+            <th>Тема</th>
             <th>Задача</th>
             <th>Важность</th>
             <th>Дата окончания</th>
             <th>Сделано</th>
         </tr>
-        {% for task in tasks %}
-            <tr>
-                <td id="column1"><a href="{% url 'task_update' task.id %}">{{task.title}}</a></td>
-                <td>{{task.get_importance_display}}</a></td>
-                <td>{% if task.date %}
-                        {{task.date}}
-                    {% endif %}</td>
-                <td>{% if task.completed %}
-                        Да
-                    {% else %}
-                        Нет
-                    {% endif %}</td>
-            </tr>
+        {% for block in blocks %}
+                {% if block.task_set.all %}
+                    {% for task in block.task_set.all %}
+                    <tr {% if forloop.last %} style="border-bottom: solid 1px;" {% endif %}>
+                        {% if forloop.first %} 
+                        <td rowspan="{{block.task_set.count}}">{{block.title}}</td> 
+                        {% endif %}
+                        <td id="column1"><a href="{% url 'task_update' task.id %}">{{task.title}}</a></td>
+                        <td>{{task.get_importance_display}}</a></td>
+                        <td>{% if task.date %}
+                                {{task.date}}
+                            {% endif %}</td>
+                        <td>{% if task.completed %}
+                                Да
+                            {% else %}
+                                Нет
+                            {% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr style="border-bottom: solid 1px;">
+                        <td>{{block.title}}</td>
+                        <td colspan="4">У данной темы нет задач, <a href="{% url 'task_block_delete' block.id %}">удалить тему?</a></td>
+                    </tr>
+                {% endif %}
         {% endfor %}
     </table>
-    <p><a href="{% url 'task_add' %}">Добавить задачу</a></p>
+    <p><a href="{% url 'task_block_add' %}" style="padding-right: 20px;">Добавить тему</a>
+        <a href="{% url 'task_add' %}">Добавить задачу</a></p>
 {% endblock %}
