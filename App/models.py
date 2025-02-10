@@ -1,13 +1,15 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Task_block(models.Model):
-    title=models.CharField('Блок задач', max_length=200)
+    title=models.CharField('Тема', max_length=200)
+    user=models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Пользователь')
     
     class Meta:
         ordering=['title']
 
     def __str__(self):
-        return self.title
+        return '%s, %s' % (self.title, self.user)
     
 
 class Task(models.Model):

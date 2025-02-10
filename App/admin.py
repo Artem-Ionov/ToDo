@@ -9,5 +9,6 @@ class TaskInline(admin.TabularInline):
 
 class Task_blockAdmin(admin.ModelAdmin):
     inlines=[TaskInline]
+    list_display=['title', 'user']
 
 admin.site.register(Task_block, Task_blockAdmin)

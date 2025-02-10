@@ -11,6 +11,15 @@
         {% block navi %}
             <ul>
                 <li><a href="{% url 'task_list' %}">Задачи</a></li>
+                <br>
+            {% if user.is_authenticated %}
+                <li>Пользователь: {{user.get_username}}</li>
+                <li><form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <input type="submit" value="Выйти"></form></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Войти</a></li>
+            {% endif %}
             </ul>
         {% endblock %}
         </div>

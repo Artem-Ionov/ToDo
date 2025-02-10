@@ -3,8 +3,11 @@ from .models import Task, Task_block
 from .forms import Task_update, Task_add, Task_block_add
 
 def task_list(request):
-    blocks=Task_block.objects.all()
-    return render(request, 'task_list.html', {'blocks':blocks})
+    if request.user.is_authenticated:
+        blocks=Task_block.objects.filter(user=request.user)
+        return render(request, 'task_list.html', {'blocks':blocks})
+    else:
+        return redirect('login')
 
 def task_update(request, pk):
     task=Task.objects.get(pk=pk)
