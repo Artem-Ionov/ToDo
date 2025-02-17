@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Task_block(models.Model):
+class TaskBlock(models.Model):
     title=models.CharField('Тема', max_length=200)
     user=models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name='Пользователь')
     
@@ -16,7 +16,7 @@ class Task(models.Model):
     title=models.CharField('Задача', max_length=200)
     date=models.DateField('Дата окончания', blank=True, null=True)
     completed=models.BooleanField('Завершено', default=False)
-    block=models.ForeignKey(Task_block, on_delete=models.SET_NULL, null=True, verbose_name='Тема')
+    block=models.ForeignKey(TaskBlock, on_delete=models.SET_NULL, null=True, verbose_name='Тема')
 
     importance_dict={'в': 'Высокая', 'н': 'Норм'}
     importance=models.CharField('Важность', max_length=1, choices=importance_dict, default='н')

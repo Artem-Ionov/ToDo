@@ -1,9 +1,9 @@
 from django.forms import ModelForm
 from django.core.exceptions import ValidationError
-from .models import Task, Task_block
+from .models import Task, TaskBlock
 import datetime
 
-class Task_update(ModelForm):
+class TaskUpdate(ModelForm):
     def clean_date(self):
         data=self.cleaned_data['date']
         if data and data < datetime.date.today():
@@ -15,7 +15,7 @@ class Task_update(ModelForm):
         fields=['importance', 'date', 'completed']
 
 
-class Task_add(ModelForm):
+class TaskAdd(ModelForm):
     def clean_date(self):
         data=self.cleaned_data['date']
         if data and data < datetime.date.today():
@@ -27,7 +27,7 @@ class Task_add(ModelForm):
         fields='__all__'
 
 
-class Task_block_add(ModelForm):
+class TaskBlockAdd(ModelForm):
     class Meta:
-        model=Task_block
+        model=TaskBlock
         fields='__all__'
