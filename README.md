@@ -6,3 +6,6 @@
   python manage.py createsuperuser;
   python manage.py runserver.
 3. Откройте браузер и перейдите по адресу http://127.0.0.1:8000/App/tasks/.
+4. Создайте несколько тем и задачи для каждой темы. 
+
+
