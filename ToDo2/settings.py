@@ -20,10 +20,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-with open('secret_key.txt') as file:
-    SECRET_KEY = file.read().strip()
+SECRET_KEY = os.environ.get('SECRET_KEY', default='secretKey')
 
-DEBUG = False
+DEBUG = str(os.environ.get('DEBUG')).lower() == 'true'
 
 ALLOWED_HOSTS = []
 
