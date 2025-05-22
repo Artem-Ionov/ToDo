@@ -1,3 +1,10 @@
 from django.contrib import admin
+from .models import Task
 
-# Register your models here.
+class TaskAdmin(admin.ModelAdmin):  
+    "Класс для кастомизации админ-панели"                
+    list_display = ('title', 'date', 'completed')           # Выбираем поля и их порядок в списке задач
+    list_filter = ('date', 'completed')                     # Добавляем фильтры
+    fields = ['title', 'date', 'completed', 'description']  # Выбираем поля и их порядок в подробном описании задачи
+
+admin.site.register(Task, TaskAdmin)

@@ -1,0 +1,13 @@
+<!--Этот файл является базовым для всех остальных шаблонов-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div class="content">
+        {% block content %}{% endblock %}
+        </div>
+    </body>
+</html>

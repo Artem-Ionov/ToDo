@@ -21,11 +21,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-load_dotenv()
-
-SECRET_KEY = os.environ.get('SECRET_KEY', 'SecretKey')
-
-DEBUG = os.environ.get('DEBUG', False)
+load_dotenv()                                           # Загружаем переменные из файла, после чего
+SECRET_KEY = os.environ.get('SECRET_KEY', 'SecretKey')  # получаем значение секретного ключа
+DEBUG = os.environ.get('DEBUG', False)                  # и DEBUG
 
 ALLOWED_HOSTS = []
 
@@ -39,7 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "tasks"
+    "tasks"                                             # Регистрируем приложение
 ]
 
 MIDDLEWARE = [
@@ -76,11 +74,11 @@ WSGI_APPLICATION = "ToDo3.wsgi.application"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
+    "default": {                                    # Задаём параметры для подключения к MySQL
+        "ENGINE": "django.db.backends.mysql",       
         "NAME": "django_todo",
         "USER": "root",
-        "PASSWORD": "#lada2023_suPer",
+        "PASSWORD": os.environ['PASSWORD'],         # Получаем значение пароля из файла
         "HOST": "localhost",
         "PORT": "3306",
         "OPTIONS": {
@@ -115,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "Europe/Samara"
+TIME_ZONE = "Europe/Samara"                             # Задаём свою временную зону
 
 USE_I18N = True
 
