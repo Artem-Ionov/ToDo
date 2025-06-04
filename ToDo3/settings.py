@@ -76,10 +76,10 @@ WSGI_APPLICATION = "ToDo3.wsgi.application"
 DATABASES = {
     "default": {                                    # Задаём параметры для подключения к MySQL
         "ENGINE": "django.db.backends.mysql",       
-        "NAME": "django_todo",
-        "USER": "root",
-        "PASSWORD": os.environ['PASSWORD'],         # Получаем значение пароля из файла
-        "HOST": "localhost",
+        "NAME": os.environ['NAME'],                 # Получаем значения параметров из файла .env
+        "USER": os.environ['USER'],
+        "PASSWORD": os.environ['PASSWORD'],         
+        "HOST": os.environ['HOST'],
         "PORT": "3306",
         "OPTIONS": {
             "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
@@ -111,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ru-Ru"                                 # Задаём русский язык
 
 TIME_ZONE = "Europe/Samara"                             # Задаём свою временную зону
 

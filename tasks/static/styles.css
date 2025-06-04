@@ -1,0 +1,89 @@
+body{
+    display: flex;                      /* Делаем body контейнером для .content и .navi */   
+    margin: 0;                          /* Убираем отступ у края экрана */
+}
+
+.navi{
+    flex: 0 0 15%;                      /* Задаём ширину элемента контейнера на экране */ 
+    padding-top: 5%; 
+    background-color: #FFF8E1;
+    border-right: solid 2px #86572a;
+}
+
+.navi ul{
+    list-style: none;                   /* Убираем декорирование пунктов списка (точки) */
+    padding: 0;                         /* отступ, обусловленный им */
+}
+
+.navi li{
+    height: 40px;
+    line-height: 40px;                  /* Задаём расстояние между строками */
+    font-size: 22px;
+    text-align: center;
+}
+
+.navi li:hover{                         /* Меняем цвет при наведении */
+    background-color: white;
+}
+
+.content{
+    flex: 0 0 85%;
+    height: 100vh;                      /* Задаём высоту в 100% от видимой области экрана */
+    background: linear-gradient(90deg, white, beige);
+    padding-top: 3%;
+    padding-left: 5%;
+    box-sizing: border-box;             /* Включаем отступы и границу блока в высоту и ширину */
+}
+
+a{
+    text-decoration: none;              /* Убираем декорирование ссылок */
+    color: #86572a;
+}
+
+table{
+    width: 70%;
+    border-spacing: 0;                  /* Схлопываем отступы между ячейками */
+    border: 1px solid;
+    border-radius: 20px;                /* Скругляем углы у таблицы */
+    overflow: hidden;                   /* Убираем границу th справа */
+    text-align: center;             
+
+}
+
+th, td{
+    font-size: 18px;
+}
+
+th{
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+}
+
+/* Задаём ширину и границы для столбцов через td без colgroup */
+td:nth-child(1){ width: 50%; border-right: 1px solid; text-align: left; padding-left: 20px;} 
+td:nth-child(2){ width: 15%; border-right: 1px solid;}
+td:nth-child(3){ width: 20%; border-right: 1px solid;}
+td:nth-child(4){ width: 15%}
+
+button{
+    display: block;                     /* Делаем элемент блочным для переноса на следующую строку */
+    margin-top: 20px;
+    color: #86572a;
+    background-color: #FFF8E1;
+    font-size: 15px;
+    padding: 8px;
+    border: solid 1px;
+    border-radius: 5px;
+}
+
+button:hover{
+    cursor: pointer;                    /* Изменяем внешний вид курсора при наведении */
+}
+
+form{
+    display: inline-block;              /* Для того, чтобы элемент не растягивался на всю ширину */
+    padding: 20px;
+    border: solid 1px #86572a;
+    border-radius: 20px;
+    font-size: 18px;
+}

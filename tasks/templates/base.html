@@ -4,10 +4,18 @@
     <head>
         <title>{% block title %}{% endblock %}</title>
         <meta charset="utf-8">
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
     </head>
     <body>
+        <div class="navi">                                      <!--Панель навигации-->
+            <ul>
+                <li><a href="{% url 'task_list' %}">Все задачи</a></li>
+                <li><a href="">Архив</a></li>
+            </ul>
+        </div>
         <div class="content">
-        {% block content %}{% endblock %}
+        {% block content %}{% endblock %}                       <!--Блок основного содержимого страницы-->
         </div>
     </body>
 </html>

@@ -1,11 +1,25 @@
-<!--Шаблон для представления списка текущих задач-->
 {% extends 'base.html' %}
 
 {% block title %}Мой ToDo{% endblock %}
 {% block content %}
-    {% for task in tasks %}                 <!--Перебираем все задачи-->
-        <p>{{task.title}}</p>
-    {% empty %}                             <!--Если нет ни одной, выводим соответствующее сообщение-->
+    {% if tasks %}
+        <table>
+            <tr>
+                <th><em>Задача</em></th>
+                <th><em>Важность</em></th>
+                <th><em>Срок</em></th>
+                <th><em>Сделано</em></th>
+            </tr>
+            {% for task in tasks %}         <!--Перебираем все задачи-->
+            <tr>
+                <td><a href="{% url 'update_task' task.id %}">{{task.title}}</a></td>
+                <td>{% if task.importance %} Да {% endif %}</td> 
+                <td>{% if task.date %} {{task.date}} {% endif %}</td>  
+                <td>{% if task.completed %} Да {% endif %}</td>                 
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}                              <!--Если нет ни одной, выводим соответствующее сообщение-->
         <p>У вас нет никаких задач</p>
-    {% endfor %}
+    {% endif %}
 {% endblock %}
