@@ -1,25 +1,44 @@
 {% extends 'base.html' %}
 
-{% block title %}Мой ToDo{% endblock %}
 {% block content %}
-    {% if tasks %}
-        <table>
-            <tr>
-                <th><em>Задача</em></th>
-                <th><em>Важность</em></th>
-                <th><em>Срок</em></th>
-                <th><em>Сделано</em></th>
-            </tr>
-            {% for task in tasks %}         <!--Перебираем все задачи-->
-            <tr>
-                <td><a href="{% url 'update_task' task.id %}">{{task.title}}</a></td>
+<div class="my-table"><table>                               <!--"Оборачиваем" таблицу div, чтобы сделать скругление границы--> 
+    <colgroup>                                              <!--(из-за border-collapse=collapse не работает border-radius)-->
+        <col style="width: 15%; border-right: 1px solid;">  <!--Используем colgroup для задания ширины столбцов-->
+        <col style="width: 40%; border-right: 1px solid;">  <!--(самый надёжный способ при объединённых ячейках-->
+        <col style="width: 13%; border-right: 1px solid;">
+        <col style="width: 20%; border-right: 1px solid;">
+        <col style="width: 12%;">
+    </colgroup>
+    <tr>
+        <th><em>Блок задач</em></th>
+        <th><em>Задача</em></th>
+        <th><em>Важность</em></th>
+        <th><em>Срок</em></th>
+        <th><em>Сделано</em></th>
+    </tr>
+    {% for block in blocks %}                               <!--Перебираем все блоки задач-->
+        {% if block.task_set.all %}                         <!--Если в блоке есть задачи,-->
+            {% for task in block.task_set.all %}            <!--перебираем их-->
+            <!--После каджого блока проводим разделитель (за исключением последней строки таблицы)-->
+            <tr {% if forloop.last and not forloop.parentloop.last %} style="border-bottom: solid 1px;" {% endif %}>
+                {% if forloop.first %}
+                <!--Объединяем ячейки для названия блока по количеству задач в нём-->
+                <td rowspan="{{block.task_set.count}}">{{block.title}}</td> 
+                {% endif %}         <!--Ссылка на страницу обновления задачи-->
+                <td class="column2"><a href="{% url 'update_task' task.id %}">{{task.title}}</a></td> 
                 <td>{% if task.importance %} Да {% endif %}</td> 
                 <td>{% if task.date %} {{task.date}} {% endif %}</td>  
-                <td>{% if task.completed %} Да {% endif %}</td>                 
+                <td>{% if task.completed %} Да {% endif %}</td>  
             </tr>
-            {% endfor %}
-        </table>
-    {% else %}                              <!--Если нет ни одной, выводим соответствующее сообщение-->
-        <p>У вас нет никаких задач</p>
-    {% endif %}
+            {% endfor %}               
+        {% else %}                                      <!--Если у блока нет задач, выводим соответствующее сообщение-->
+            <!--Также проводим разделитель, исключая случай последней строки в таблице-->
+            <tr {% if not forloop.last %} style="border-bottom: solid 1px;" {% endif %}>
+                <td>{{block.title}}</td>
+                <td colspan="4">У данного блока нет задач</td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+</table></div>
+<a href="{% url 'create_task' %}" class="my-button">Создать задачу</a>      <!--Ссылка на страницу создания задачи-->
 {% endblock %}

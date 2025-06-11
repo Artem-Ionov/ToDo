@@ -1,6 +1,7 @@
 body{
     display: flex;                      /* Делаем body контейнером для .content и .navi */   
     margin: 0;                          /* Убираем отступ у края экрана */
+    font-family: Arial;
 }
 
 .navi{
@@ -40,50 +41,59 @@ a{
     color: #86572a;
 }
 
-table{
-    width: 70%;
-    border-spacing: 0;                  /* Схлопываем отступы между ячейками */
-    border: 1px solid;
-    border-radius: 20px;                /* Скругляем углы у таблицы */
-    overflow: hidden;                   /* Убираем границу th справа */
-    text-align: center;             
+p{
+    font-size: 15px;
+}
 
+table{
+    width: 100%;
+    border-collapse: collapse;          /* Схлопываем отступы между ячейками */
+    text-align: center;             
+}
+
+.my-table{                              /* Класс, для блока div, обёртывающего таблицу, чтобы сделать скругление углов */
+    border: solid 1px;
+    border-radius: 20px;
+    overflow: hidden;                   /* Обрезаем границу таблицы, выступающую за div */
+    width: 80%;
+}
+
+.column2{
+    text-align: left;
+    padding-left: 20px;
 }
 
 th, td{
-    font-size: 18px;
+    font-size: 15px;
 }
 
 th{
     border-bottom: 1px solid;
-    border-right: 1px solid;
 }
 
-/* Задаём ширину и границы для столбцов через td без colgroup */
-td:nth-child(1){ width: 50%; border-right: 1px solid; text-align: left; padding-left: 20px;} 
-td:nth-child(2){ width: 15%; border-right: 1px solid;}
-td:nth-child(3){ width: 20%; border-right: 1px solid;}
-td:nth-child(4){ width: 15%}
+form{
+    display: inline-block;              /* Для того, чтобы элемент не растягивался на всю ширину */
+    border: solid 1px #86572a;
+    border-radius: 20px;
+    padding: 20px;
+    font-size: 18px;
+}
 
-button{
-    display: block;                     /* Делаем элемент блочным для переноса на следующую строку */
+button, .my-button{                     /* Делаем одинаковыми кнопку и ссылку */
+    display: inline-block;
+    border: solid 1px;
+    border-radius: 5px;
+    padding: 9px;
     margin-top: 20px;
+    margin-right: 10px;
     color: #86572a;
     background-color: #FFF8E1;
     font-size: 15px;
-    padding: 8px;
-    border: solid 1px;
-    border-radius: 5px;
 }
 
 button:hover{
     cursor: pointer;                    /* Изменяем внешний вид курсора при наведении */
 }
 
-form{
-    display: inline-block;              /* Для того, чтобы элемент не растягивался на всю ширину */
-    padding: 20px;
-    border: solid 1px #86572a;
-    border-radius: 20px;
-    font-size: 18px;
-}
+
+

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Task
+from .models import Task, TaskBlock
 
 class TaskAdmin(admin.ModelAdmin):  
     "Класс для кастомизации админ-панели"                
@@ -8,3 +8,4 @@ class TaskAdmin(admin.ModelAdmin):
     fields = ['title', 'importance', 'date', 'completed', 'description']  # Выбираем поля и их порядок в подробном описании задачи
 
 admin.site.register(Task, TaskAdmin)
+admin.site.register(TaskBlock)
