@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Обновление параметров задачи</h2>
+    <h2>Обновление параметров блока задач</h2>
     <form method="post" id="update-form">
         {% csrf_token %}
         {{form.as_p}}
     </form>
     <div>
         <button type="submit" form="update-form">Сохранить</button>
-        <a href="{% url 'delete_task' task.id %}" class="my-button">Удалить задачу</a>
+        <a href="{% url 'delete_taskblock' taskblock.id %}" class="my-button">Удалить блок задач</a>
     </div>
 {% endblock %}

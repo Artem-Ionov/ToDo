@@ -8,14 +8,22 @@
         <link rel="stylesheet" href="{% static 'styles.css' %}">
     </head>
     <body>
-        <div class="navi">                                      <!--Панель навигации-->
+        <div class="navi">                                              <!--Панель навигации-->
             <ul>
                 <li><a href="{% url 'task_list' %}">Все задачи</a></li>
-                <li><a href="">Архив</a></li>
+                <br><br><br><br><br>                
+                {% if user.is_authenticated %}                          <!--Если пользователь аутентифицирован,-->
+                <li>{{user.get_username}}</li>                          <!--выводим его имя и кнопку "Выйти",-->
+                <li><form method="post" action="{% url 'logout' %}">    <!--для которой необходим post-запрос-->
+                    {% csrf_token %}
+                    <input type="submit" value="Выйти" class="logout-btn"></form></li>
+                {% else %}                                              <!--В противном случае выводим кнопку "Войти"-->
+                <li><a href="{% url 'login' %}">Войти</a></li>
+                {% endif %}
             </ul>
         </div>
         <div class="content">
-        {% block content %}{% endblock %}                       <!--Блок основного содержимого страницы-->
+        {% block content %}{% endblock %}                               <!--Блок основного содержимого страницы-->
         </div>
     </body>
 </html>

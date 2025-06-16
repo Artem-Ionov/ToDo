@@ -17,8 +17,11 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("tasks/", include("tasks.urls")),                  # Включаем подсписок url-адресов для приложения tasks
+    path("accounts/", include("django.contrib.auth.urls")), # Включаем подсписок url-адресов для аутентификации
+    path("logout/", LogoutView.as_view(next_page='login'), name='logout') # После выхода перенаправляем на страницу входа
 ]

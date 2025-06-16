@@ -23,6 +23,14 @@ body{
     text-align: center;
 }
 
+.logout-btn{                            /* Делаем кнопку "Выйти" такой же, как все остальные на панели */
+    border: none;
+    color: #86572a;
+    background-color: inherit;
+    font-size: inherit;
+    cursor: pointer;
+}
+
 .navi li:hover{                         /* Меняем цвет при наведении */
     background-color: white;
 }
@@ -34,6 +42,14 @@ body{
     padding-top: 3%;
     padding-left: 5%;
     box-sizing: border-box;             /* Включаем отступы и границу блока в высоту и ширину */
+}
+
+.content form{
+    display: inline-block;              /* Для того, чтобы элемент не растягивался на всю ширину */
+    border: solid 1px #86572a;
+    border-radius: 20px;
+    padding: 20px;
+    font-size: 18px;
 }
 
 a{
@@ -69,14 +85,6 @@ th, td{
 
 th{
     border-bottom: 1px solid;
-}
-
-form{
-    display: inline-block;              /* Для того, чтобы элемент не растягивался на всю ширину */
-    border: solid 1px #86572a;
-    border-radius: 20px;
-    padding: 20px;
-    font-size: 18px;
 }
 
 button, .my-button{                     /* Делаем одинаковыми кнопку и ссылку */
