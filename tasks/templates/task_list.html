@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<h2>Текущие задачи</h2>
 <div class="my-table"><table>                               <!--"Оборачиваем" таблицу div, чтобы сделать скругление границы--> 
     <colgroup>                                              <!--(из-за border-collapse=collapse не работает border-radius)-->
         <col style="width: 15%; border-right: 1px solid;">  <!--Используем colgroup для задания ширины столбцов-->
@@ -17,17 +18,17 @@
         <th><em>Сделано</em></th>
     </tr>
     {% for taskblock in taskblocks %}                           <!--Перебираем все блоки задач-->
-        {% if taskblock.task_set.all %}                         <!--Если в блоке есть задачи,-->
-            {% for task in taskblock.task_set.all %}            <!--перебираем их-->
+        {% if taskblock.filtered_tasks %}                       <!--Если в блоке есть фильтрованные задачи,-->
+            {% for task in taskblock.filtered_tasks %}          <!--перебираем их-->
             <!--После каджого блока проводим разделитель (за исключением последней строки таблицы)-->
             <tr {% if forloop.last and not forloop.parentloop.last %} style="border-bottom: solid 1px;" {% endif %}>
                 {% if forloop.first %}
                 <!--Объединяем ячейки для названия блока по количеству задач в нём-->
-                <td rowspan="{{taskblock.task_set.count}}"><a href="{% url 'update_taskblock' taskblock.id %}">{{taskblock.title}}</a></td> 
+                <td rowspan="{{taskblock.filtered_tasks.count}}"><a href="{% url 'update_taskblock' taskblock.id %}">{{taskblock.title}}</a></td> 
                 {% endif %}         
                 <td class="column2"><a href="{% url 'update_task' task.id %}">{{task.title}}</a></td> 
-                <td>{% if task.importance %} Да {% endif %}</td> 
-                <td>{% if task.date %} {{task.date}} {% endif %}</td>  
+                <td>{% if task.importance %} Высокая {% endif %}</td> 
+                <td>{% if task.deadline %} {{task.deadline}} {% endif %}</td>  
                 <td>{% if task.completed %} Да {% endif %}</td>  
             </tr>
             {% endfor %}               

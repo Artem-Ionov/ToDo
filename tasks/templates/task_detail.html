@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Детальное описание задачи</h2>
+    <p>Задача: {{task.title}}</p>
+    <p>Блок задач: {{task.taskblock}}</p>
+    <p>Важность: {% if task.importance %} Высокая {% else %} &nbsp;— {% endif %}</p>
+    <p>Срок: {% if task.deadline %} {{task.deadline}} {% else %} &nbsp;— {% endif %}</p>
+    <p>Описание: {% if task.description %} {{task.description}} {% else %} &nbsp;— {% endif %}</p>
+    <a href="{% url 'recover_task' task.id %}" class="my-button">Восстановить задачу</a>
+{% endblock %}

@@ -7,7 +7,8 @@
         {{form.as_p}}
     </form>
     <div>
-        <button type="submit" form="update-form">Сохранить</button>
+        <button type="submit" form="update-form" name="save">Сохранить</button>
+        <button type="submit" form="update-form" name="move_in_archive">Переместить в архив</button>
         <a href="{% url 'delete_task' task.id %}" class="my-button">Удалить задачу</a>
     </div>
 {% endblock %}

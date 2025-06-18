@@ -11,6 +11,7 @@
         <div class="navi">                                              <!--Панель навигации-->
             <ul>
                 <li><a href="{% url 'task_list' %}">Все задачи</a></li>
+                <li><a href="{% url 'task_archive' %}">Архив</a></li>
                 <br><br><br><br><br>                
                 {% if user.is_authenticated %}                          <!--Если пользователь аутентифицирован,-->
                 <li>{{user.get_username}}</li>                          <!--выводим его имя и кнопку "Выйти",-->

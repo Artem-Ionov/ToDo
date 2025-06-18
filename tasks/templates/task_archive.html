@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Архив</h2>
+    <p>В скобках указана дата помещения в архив</p>
+    <ol>
+    {% for task in tasks %}
+        <li><a href="{% url 'task_detail' task.id %}">{{task.title}}</a> ({{task.archive_date}})</li>
+    {% empty %}
+    </ol>
+        <p>В вашем архиве нет задач</p>
+    {% endfor %}
+{% endblock %}

@@ -3,13 +3,15 @@ from django.contrib.auth.models import User
 
 class Task(models.Model):
     "Модель задачи"
-    title = models.CharField('Название', max_length=200)                # Поля модели
+    title = models.CharField('Задача', max_length=200)                # Поля модели
         # Связь с моделью блока задач (внешний ключ)
     taskblock = models.ForeignKey('TaskBlock', on_delete=models.SET_NULL, null=True, verbose_name='Блок задач')
     importance = models.BooleanField('Важность', default=False)               
-    date = models.DateField('Дата окончания', blank=True, null=True)    
-    completed = models.BooleanField('Завершено', default=False)
+    deadline = models.DateField('Срок', blank=True, null=True)    
+    completed = models.BooleanField('Сделано', default=False)
     description = models.TextField('Описание', blank=True, null=True)
+    archive = models.BooleanField('В архиве', default=False)
+    archive_date = models.DateField('Дата помещения в архив', blank=True, null=True)
 
     class Meta:
         ordering = ['title']            # Сортировка по названию задачи
@@ -19,7 +21,12 @@ class Task(models.Model):
     def __str__(self):
         return self.title               # При обращении к экземпляру модели возвращаем название задачи (для админ-панели)
     
-
+    def display_user(self):
+        "Отображение имени пользователя в админ-панели для задач (имя пользователя определено в модели блока)"
+        return self.taskblock.user
+    display_user.short_description = 'Пользователь'
+    
+    
 class TaskBlock(models.Model):
     "Модель блока задач"
     title = models.CharField('Блок задач', max_length = 100)

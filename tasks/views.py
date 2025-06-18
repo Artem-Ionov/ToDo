@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect
 from .models import Task, TaskBlock
 from .forms import TaskForm, TaskBlockForm
+from datetime import datetime
 
 def task_list(request):
     "Получение блоков задач текущего пользователя (задачи для каждого блока выводятся в шаблоне)"
-    if request.user.is_authenticated:                               # Если пользователь аутентифицирован,
-        taskblocks = TaskBlock.objects.filter(user=request.user)    # получаем его блоки задач
+    if request.user.is_authenticated:                             # Если пользователь аутентифицирован,
+        taskblocks = TaskBlock.objects.filter(user=request.user)  # получаем его блоки задач
+        for taskblock in taskblocks:                              # Для каждого блока фильтруем задачи по полю 'archive',
+            taskblock.filtered_tasks = taskblock.task_set.filter(archive=False) # присваивая результат новому атрибуту
         return render(request, 'task_list.html', {'taskblocks': taskblocks})
-    else:                                                           # Если нет, перенаправляем на страницу входа
+    else:                                                         # Если нет, перенаправляем на страницу входа
         return redirect('login')
 
 def create_task(request):
@@ -26,9 +29,15 @@ def update_task(request, id):
     task = Task.objects.get(pk=id)                        # Получение экземпляра задачи по принятому идентификатору
     if request.method == "POST":                          # Передаём в форму экземпляр задачи и текущего пользователя
         form = TaskForm(request.POST, instance=task, user=request.user) 
-        if form.is_valid():                               
-            form.save()                                   
-            return redirect('task_list')                  
+        if form.is_valid():
+            if 'save' in request.POST:                    # Если в параметрах POST-запроса есть ключ 'save' (поле                
+                form.save()                               #  name в форме), сохраняем изменения в базу    
+                return redirect('task_list')              # и переходим к списку задач
+            elif 'move_in_archive' in request.POST:       # Если же в параметрах POST-запроса есть ключ 'arcive',
+                task.archive=True                         # изменяем поле 'archive' на True,
+                task.archive_date = datetime.now()        # фиксируем дату архивации,
+                task.save()                               # сохраняем
+                return redirect('task_archive')           # и переходим в архив       
     else:                                                 
         form = TaskForm(instance=task, user=request.user) # Форма выводится со значениями, взятыми из базы
     return render(request, 'update_task.html', {'form': form, 'task': task})
@@ -44,7 +53,7 @@ def create_taskblock(request):
     if request.method == 'POST':
         form = TaskBlockForm(request.POST)
         if form.is_valid():
-            taskblock = form.save(commit=False)         # Создаём экземпляр блока задач, но не сохраняем его, чтобы
+            taskblock = form.save(commit=False)         # Создаём экземпляр блока задач, но не сохраняем его сразу, чтобы
             taskblock.user = request.user               # автоматически добавить текущего пользователя как автора блока  
             taskblock.save()
             return redirect('task_list')
@@ -68,4 +77,22 @@ def delete_taskblock(request, id):
     "Удаление блока задач"
     taskblock = TaskBlock.objects.get(pk=id)
     taskblock.delete()
+    return redirect('task_list')
+
+def task_archive(request):
+    "Получение архивных задач"
+    # Фильтрация задач по полю 'archive' и сортировка по полю 'archive_date'
+    tasks = Task.objects.filter(archive=True).order_by('-archive_date') 
+    return render(request, 'task_archive.html', {'tasks': tasks})
+
+def task_detail(request, id):
+    "Получение детельной информации о задаче"
+    task = Task.objects.get(pk=id)
+    return render(request, 'task_detail.html', {'task': task})
+
+def recover_task(request, id):
+    "Восстановление задачи из архива"
+    task = Task.objects.get(pk=id)
+    task.archive = False
+    task.save()
     return redirect('task_list')
