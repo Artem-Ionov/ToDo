@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from .models import Task, TaskBlock
 
@@ -31,3 +33,10 @@ class TaskBlockForm(forms.ModelForm):
     class Meta:
         model = TaskBlock
         fields = ['title']                  # Используем поле "название"
+
+
+class SignUpForm(UserCreationForm):
+    "Форма для регистрации пользователя"
+    class Meta:
+        model = User
+        fields = ['username', 'password1', 'password2']

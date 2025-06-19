@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth import login
 from .models import Task, TaskBlock
-from .forms import TaskForm, TaskBlockForm
+from .forms import TaskForm, TaskBlockForm, SignUpForm
 from datetime import datetime
 
 def task_list(request):
@@ -96,3 +97,15 @@ def recover_task(request, id):
     task.archive = False
     task.save()
     return redirect('task_list')
+
+def sign_up(request):
+    "Регистрация пользователя"
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)                    # Аутентификация зарегистрированного пользователя
+            return redirect('task_list')
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/sign_up.html', {'form': form})
