@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Детальное описание задачи</h2>
+    <h1>Детальное описание задачи</h1>
     <p>Задача: {{task.title}}</p>
     <p>Блок задач: {{task.taskblock}}</p>
     <p>Важность: {% if task.importance %} Высокая {% else %} &nbsp;— {% endif %}</p>

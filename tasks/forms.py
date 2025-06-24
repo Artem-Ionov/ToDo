@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from .models import Task, TaskBlock
+import re
+import datetime
 
 class TaskForm(forms.ModelForm):                  # Используем для формы поля из модели
     "Форма для создания задачи и обновления параметров задачи"
@@ -18,6 +20,13 @@ class TaskForm(forms.ModelForm):                  # Используем для 
         super(TaskForm, self).__init__(*args, **kwargs)
         # Фильтруем объект запроса 
         self.fields['taskblock'].queryset = TaskBlock.objects.filter(user=self.user)
+
+    def clean_deadline(self):
+        "Валидация даты"
+        deadline = self.cleaned_data['deadline']
+        if deadline < datetime.date.today():
+            raise ValidationError('Введите дату, начиная с сегодняшней')
+        return deadline
 
     def clean_completed(self):
         "Функция для валидации поля 'завершено' при нажатии кнопки 'переместить в рахив'"
@@ -36,7 +45,28 @@ class TaskBlockForm(forms.ModelForm):
 
 
 class SignUpForm(UserCreationForm):
-    "Форма для регистрации пользователя"
+    """Форма для регистрации пользователя. UserCreationForm - оптимизированная для регистрации версия ModelForm.
+    С ней автоматически добавляется логика для: 1) проверки совпадения паролей; 2) хэширования пароля;
+    3) проверки уникальности имени пользователя; 4) поля 'password1' и 'password2'."""
     class Meta:
         model = User
         fields = ['username', 'password1', 'password2']
+
+
+class UserNameForm(forms.ModelForm):
+    "Форма для изменения имени пользователя"
+    class Meta:
+        model = User
+        fields = ['username']
+
+    def clean_username(self):
+        """Валидация поля username. Необходима потому, что, несмотря на вывод в форме сообщений об ошибках,
+        выполняется сохранение невалидных даннаых """
+        username = self.cleaned_data['username']
+        # Проверяем, занято ли введённое имя пользователя
+        if User.objects.exclude(pk=self.instance.pk).filter(username=username).exists():
+            raise ValidationError('Это имя пользователя уже занято')
+        # Проверяем, содержит ли введённое имя недопустимые символы
+        if not re.match(r'^[\w@.+-_]+$', username):
+            raise ValidationError('Имя пользователя может содержать только буквы, цифры и символы @/./+/-/_')
+        return username

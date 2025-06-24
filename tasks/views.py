@@ -1,18 +1,18 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import login, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.decorators import login_required
 from .models import Task, TaskBlock
-from .forms import TaskForm, TaskBlockForm, SignUpForm
+from .forms import TaskForm, TaskBlockForm, SignUpForm, UserNameForm
 from datetime import datetime
 
+@login_required                     # Функция требует аутентификации (иначе происходит перенаправление на 'login')
 def task_list(request):
     "Получение блоков задач текущего пользователя (задачи для каждого блока выводятся в шаблоне)"
-    if request.user.is_authenticated:                             # Если пользователь аутентифицирован,
-        taskblocks = TaskBlock.objects.filter(user=request.user)  # получаем его блоки задач
-        for taskblock in taskblocks:                              # Для каждого блока фильтруем задачи по полю 'archive',
-            taskblock.filtered_tasks = taskblock.task_set.filter(archive=False) # присваивая результат новому атрибуту
-        return render(request, 'task_list.html', {'taskblocks': taskblocks})
-    else:                                                         # Если нет, перенаправляем на страницу входа
-        return redirect('login')
+    taskblocks = TaskBlock.objects.filter(user=request.user)  # Получаем блоки задач текущего пользователя
+    for taskblock in taskblocks:                              # Для каждого блока фильтруем задачи по полю 'archive',
+        taskblock.filtered_tasks = taskblock.task_set.filter(archive=False) # присваивая результат новому атрибуту
+    return render(request, 'task_list.html', {'taskblocks': taskblocks})
 
 def create_task(request):
     "Создание новой задачи"
@@ -80,6 +80,7 @@ def delete_taskblock(request, id):
     taskblock.delete()
     return redirect('task_list')
 
+@login_required
 def task_archive(request):
     "Получение архивных задач"
     # Фильтрация задач по полю 'archive' и сортировка по полю 'archive_date'
@@ -104,8 +105,30 @@ def sign_up(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)                    # Аутентификация зарегистрированного пользователя
+            login(request, user)                                # Аутентификация зарегистрированного пользователя
             return redirect('task_list')
     else:
         form = SignUpForm()
     return render(request, 'registration/sign_up.html', {'form': form})
+
+@login_required
+def settings(request):
+    "Настройки пользователя"
+    username_form = UserNameForm(instance=request.user)         # Выносим вперёд, чтобы при ошибках валидации 
+    password_form = PasswordChangeForm(user=request.user)       # обе переменные передавались в шаблон
+    if request.method == 'POST':
+        if 'change_username' in request.POST:
+            username_form = UserNameForm(request.POST, instance=request.user)
+            if username_form.is_valid():
+                username_form.save()
+                return redirect('settings')
+        elif 'change_password' in request.POST:
+            """ Форма PasswordChangeForm требует именованных аргументов. Благодаря её использованию автоматически 
+            выполняется 1) хэширование пароля; 2) валидация сложности пароля (AUTH_PASSWORD_VALIDATORS из settings.py);
+            3) проверка старого пароля; 4) проверка совпадения паролей; 5) форма уже содержит все нужные поля"""
+            password_form = PasswordChangeForm(data=request.POST, user=request.user)
+            if password_form.is_valid():
+                user = password_form.save()
+                update_session_auth_hash(request, user)     # Обновляем сессию, чтобы пользователь не разлогинился
+                return redirect('settings')
+    return render(request, 'settings.html', {'username_form': username_form, 'password_form': password_form})

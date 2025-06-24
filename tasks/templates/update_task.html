@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Обновление параметров задачи</h2>
+    <h1>Обновление параметров задачи</h1>
     <form method="post" id="update-form">
         {% csrf_token %}
         {{form.as_p}}

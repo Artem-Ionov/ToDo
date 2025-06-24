@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Настройки</h1>
+    <form method="post" id="username-form">
+        {% csrf_token %}
+        {{username_form.as_p}}
+    </form>
+    <div><button type=submit form="username-form" name="change_username">Изменить имя</button></div>
+    <br><br>
+    <form method="post" id="password-form">
+        {% csrf_token %}
+        {{password_form.as_p}}
+    </form>
+    <div><button type=submit form="password-form" name="change_password">Изменить пароль</button></div>
+{% endblock %}
