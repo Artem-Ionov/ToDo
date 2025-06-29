@@ -13,4 +13,9 @@
         {{password_form.as_p}}
     </form>
     <div><button type=submit form="password-form" name="change_password">Изменить пароль</button></div>
+    {% if messages %}                               <!-- Проверка наличия сообщений -->
+        {% for message in messages %}               <!-- Цикл по всем сообщениям -->
+            <p>{{ message }}</p>   <!-- Вывод текста сообщения -->
+        {% endfor %}
+    {% endif %}
 {% endblock %}

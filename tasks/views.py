@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .models import Task, TaskBlock
 from .forms import TaskForm, TaskBlockForm, SignUpForm, UserNameForm
 from datetime import datetime
@@ -121,6 +122,7 @@ def settings(request):
             username_form = UserNameForm(request.POST, instance=request.user)
             if username_form.is_valid():
                 username_form.save()
+                messages.success(request, 'Имя пользователя успешно изменено')
                 return redirect('settings')
         elif 'change_password' in request.POST:
             """ Форма PasswordChangeForm требует именованных аргументов. Благодаря её использованию автоматически 
@@ -130,5 +132,6 @@ def settings(request):
             if password_form.is_valid():
                 user = password_form.save()
                 update_session_auth_hash(request, user)     # Обновляем сессию, чтобы пользователь не разлогинился
+                messages.success(request, 'Пароль успешно изменён')
                 return redirect('settings')
     return render(request, 'settings.html', {'username_form': username_form, 'password_form': password_form})
